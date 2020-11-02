@@ -1,22 +1,23 @@
 import React, { ReactElement } from 'react';
+import { LinkListItem } from '../index';
+import NavItem from '../NavItem';
 import './navContent.styl';
 
-export default function NavContent(): ReactElement {
+export default function NavContent(props: LinkListItem): ReactElement {
+  const { title, details } = props;
+
+  const navItemList = details.map((item) => {
+    const { linkUrl, imageUrl, text } = item;
+    return <NavItem linkUrl={linkUrl} imageUrl={imageUrl} text={text} key={linkUrl} />;
+  });
+
   return (
     <div className="navContent">
       <div className="flex justify-between">
-        <div><b>title</b></div>
-        <div>search</div>
+        <div><b>{title}</b></div>
       </div>
 
-      <div className="navContent__detail">
-        <a href="https://www.baidu.com" className="navContent__item">
-          <div className="navContent__item__logo">
-            <img src="https://www.jianfast.com/static/home/images/siteimg/i0.png" alt="logo" />
-          </div>
-          <div className="navContent__item__text"><b>说明</b></div>
-        </a>
-      </div>
+      <div className="navContent__detail">{navItemList}</div>
     </div>
   );
 }
