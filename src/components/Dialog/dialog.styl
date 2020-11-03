@@ -1,0 +1,46 @@
+@import "~@/style/global.styl"
+.dialog-wrap{
+  position fixed
+  top 0
+  left 0
+  bottom 0
+  right 0
+  z-index 1000
+  background rgba(0, 0, 0, .25)
+}
+
+.dialog{
+  background white
+  color black
+  margin 0 auto
+  position relative
+  top 100px
+  border-radius 4px
+  box-sizing border-box
+
+  &__close{
+    position absolute
+    right 0
+    top 0
+    height 50px
+    width 50px
+    border 0
+    font-size 20px
+    background white
+    color #bbb
+    cursor pointer
+  }
+
+  &__header{
+    padding 16px 24px
+  }
+
+  &__body{
+    padding 24px
+  }
+
+  &__footer{
+    padding 16px 24px
+    text-align right
+  }
+}

@@ -30,6 +30,7 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
+    'jsx-a11y/click-events-have-key-events': 'off',
     'no-use-before-define': 'off',
     'import/extensions': [
       'error',

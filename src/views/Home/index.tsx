@@ -19,7 +19,17 @@ export default function Home(): ReactElement {
 
   return (
     <div className="home">
-      {navContentList}
+      <header className="home__header">
+        这里是导航头部
+      </header>
+
+      <div className="home__body flex justify-between">
+        <div className="home__body__left">
+          {navContentList}
+        </div>
+
+        <div className="home__body__right">right</div>
+      </div>
     </div>
   );
 }

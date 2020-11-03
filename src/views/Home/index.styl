@@ -1,9 +1,38 @@
 @import "~@/style/global.styl"
+
+.body-content{
+  width 48%
+  border-radius 6px
+  background rgba(255,255,255,0.1)
+  padding 10px
+  box-sizing border-box
+}
+
 .home{
   background url("../../static/image/background.jpg")
   background-repeat no-repeat
   background-size cover
   height 100vh
   min-width 1400px
-  padding 0 40px
+  color white
+
+  &__header{
+    height 60px
+    line-height 60px
+    padding 0 40px
+    text-align right
+    background rgba(0, 0, 0, 0.3)
+  }
+
+  &__body{
+    padding 40px
+
+    &__left{
+      @extend .body-content;
+    }
+
+    &__right{
+      @extend .body-content;
+    }
+  }
 }

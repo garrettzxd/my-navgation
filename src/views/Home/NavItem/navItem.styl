@@ -1,13 +1,19 @@
+@import "~@/style/global.styl"
+$navItemSize = 100px
+$logoSize = 40px
+$imageSize = 22px
+
 .nav-item{
   display inline-block
   text-decoration none
   color white
-  width 112px
-  height 112px
+  width $navItemSize
+  height $navItemSize
   border-radius 6px
   padding-top 16px
   text-align center
   box-sizing border-box
+  cursor pointer
 
   &:hover{
     background rgba(255, 255, 255, 0.3)
@@ -16,8 +22,8 @@
   &__logo{
     background white
     padding 20px
-    width 48px
-    height 48px
+    width $logoSize
+    height $logoSize
     box-sizing border-box
     border-radius 50%
     text-align center
@@ -26,8 +32,8 @@
     justify-content center
 
     img{
-      width 24px
-      height 24px
+      width $imageSize
+      height $imageSize
     }
   }
 
