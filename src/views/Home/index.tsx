@@ -1,18 +1,20 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import loadable from '@loadable/component';
 import { linkList } from './contants';
-import { NavItemProps } from './NavItem/index';
+import { NavItemBase } from './NavItem/index';
 import './index.styl';
 
 const NavContent = loadable(() => import('./NavContent'));
 
 export interface LinkListItem{
   title: string;
-  details: NavItemProps[];
+  details: NavItemBase[];
 }
 
 export default function Home(): ReactElement {
-  const navContentList = linkList.map((item) => {
+  const [list, setList] = useState(linkList);
+
+  const navContentList = list.map((item) => {
     const { title, details } = item;
     return <NavContent title={title} details={details} key={title} />;
   });

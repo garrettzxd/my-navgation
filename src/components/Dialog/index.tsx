@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react';
-import closeImage from '../../static/image/close.png';
+import React, { ReactElement, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import './dialog.styl';
 
 export interface DialogProps {
@@ -11,17 +11,25 @@ export interface DialogProps {
   children?: ReactElement;
 }
 
-export default function Dialog(props: DialogProps): ReactElement {
+export default function Dialog(props: DialogProps): null {
+  const isInit = useRef(true);
+  let wrapper: HTMLElement;
+
   const {
-    title, children, width, onClose,
+    visible = false, title, children, width, onClose,
   } = props;
-  return (
-    <div className="dialog-wrap">
-      <div className="dialog" style={{ width: width || '520px' }}>
+  const dialog = (
+    <div className="dialog-wrap" style={{ visibility: visible ? 'visible' : 'hidden' }}>
+      <div
+        className="dialog"
+        style={{ width: width || '520px', visibility: visible ? 'visible' : 'hidden' }}
+      >
         <button
           type="button"
           className="dialog__close not-focus"
-          onClick={() => { if (onClose) onClose(); }}
+          onClick={() => {
+            if (onClose) onClose();
+          }}
         >
           x
         </button>
@@ -40,4 +48,17 @@ export default function Dialog(props: DialogProps): ReactElement {
       </div>
     </div>
   );
+
+  useEffect(() => {
+    if (isInit.current) {
+      isInit.current = false;
+    } else if (!wrapper) {
+      wrapper = document.createElement('div');
+      document.body.appendChild(wrapper);
+      ReactDOM.render(dialog, wrapper);
+      console.log('effect', visible, wrapper);
+    }
+  }, [visible]);
+
+  return null;
 }

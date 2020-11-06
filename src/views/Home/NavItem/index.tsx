@@ -2,10 +2,13 @@ import React, { ReactElement } from 'react';
 import addImage from '../../../static/image/add.png';
 import './navItem.styl';
 
-export interface NavItemProps{
+export interface NavItemBase {
   linkUrl?: string;
   imageUrl?: string;
   text?: string;
+}
+
+export interface NavItemProps extends NavItemBase{
   isLink?: boolean;
   onClick?: () => void;
 }
