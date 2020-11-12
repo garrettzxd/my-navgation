@@ -56,7 +56,6 @@ export default function Dialog(props: DialogProps): null {
       wrapper = document.createElement('div');
       document.body.appendChild(wrapper);
       ReactDOM.render(dialog, wrapper);
-      console.log('effect', visible, wrapper);
     }
   }, [visible]);
 

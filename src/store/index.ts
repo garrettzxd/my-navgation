@@ -8,7 +8,6 @@ class Store {
   @action
   setCount = (): void => {
     this.count += 1;
-    console.log(this);
   }
 }
 

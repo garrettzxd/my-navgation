@@ -18,7 +18,7 @@ export const DEFAULT_LINK_LIST: LinkList = {
     },
     {
       linkUrl: 'https://cn.mobx.js.org/',
-      imageUrl: 'https://mobx.js.org/img/mobx.png',
+      imageUrl: 'https://cn.mobx.js.org/mobx.png',
       text: 'Mobx',
     },
   ],

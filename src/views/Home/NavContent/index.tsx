@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { Popover, Input, Button } from 'antd';
+import CheckClass from '@/helper/CheckClass';
 import NavItem, { NavItemBase } from '../NavItem';
 import './navContent.styl';
 
@@ -21,8 +22,29 @@ export default function NavContent(props: NavContentProps): ReactElement {
 
   const { title, details, onAdd } = props;
 
+  const addNewCheck = (): string => {
+    const notEmptyMsg = '不能为空';
+    const check = new CheckClass();
+    check.add({
+      value: websiteName,
+      ruleList: [
+        { ruleName: 'isNotEmpty', errorMsg: `标签名${notEmptyMsg}` },
+        { ruleName: 'maxLength', errorMsg: '最长5个字', max: 5 },
+      ],
+    });
+    check.add({ value: websiteUrl, ruleList: [{ ruleName: 'isNotEmpty', errorMsg: `网址${notEmptyMsg}` }] });
+    return check.start();
+  };
+
   const addNewMark = () => {
     if (!onAdd) return;
+
+    const checkResult = addNewCheck();
+    if (checkResult) {
+      console.log(checkResult);
+      return;
+    }
+
     onAdd({
       key: title,
       newNavData: {
@@ -83,6 +105,7 @@ export default function NavContent(props: NavContentProps): ReactElement {
         <Popover
           title="新增书签"
           content={addNewContent}
+          visible={popoverVisible}
           trigger="click"
           placement="bottom"
           destroyTooltipOnHide

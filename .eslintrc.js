@@ -29,6 +29,7 @@ module.exports = {
     },
   },
   rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
     'jsx-a11y/click-events-have-key-events': 'off',
     'no-use-before-define': 'off',
