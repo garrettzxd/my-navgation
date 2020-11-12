@@ -1,15 +1,28 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, Component } from 'react';
+import { observer } from 'mobx-react';
+import testStore from '@/store/module/testStore';
 
-export default function Index(): ReactElement {
-  const [name, setName] = useState('Test');
+class Test extends Component<any, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {};
+  }
 
-  return (
-    <div>
-      <p>
-        Name is:
-        {name}
-      </p>
-      <button type="button" onClick={() => { setName(`${name + 1}`); }}>改变</button>
-    </div>
-  );
+  private setCount = (): void => {
+    testStore.setCount();
+  }
+
+  public render(): ReactElement {
+    return (
+      <div>
+        <h2>{testStore.count}</h2>
+        <h2>{testStore.realCount}</h2>
+        <button type="button" onClick={this.setCount}>
+          点击
+        </button>
+      </div>
+    );
+  }
 }
+
+export default observer(Test);

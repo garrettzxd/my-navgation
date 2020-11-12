@@ -1,11 +1,17 @@
 import React, { ReactElement, useState } from 'react';
 import { Popover, Input, Button } from 'antd';
-import { LinkListItem } from '../index';
 import NavItem, { NavItemBase } from '../NavItem';
 import './navContent.styl';
 
-export interface NavContentProps extends LinkListItem{
-  onAdd?: (data: NavItemBase) => void;
+export interface AddCallbackData {
+  key: string;
+  newNavData: NavItemBase;
+}
+
+export interface NavContentProps{
+  title: string;
+  details: NavItemBase[];
+  onAdd?: (data: AddCallbackData) => void;
 }
 
 export default function NavContent(props: NavContentProps): ReactElement {
@@ -13,10 +19,18 @@ export default function NavContent(props: NavContentProps): ReactElement {
   const [websiteName, setWebsiteName] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
 
-  const { title, details } = props;
+  const { title, details, onAdd } = props;
 
   const addNewMark = () => {
-    console.log(websiteName, websiteUrl);
+    if (!onAdd) return;
+    onAdd({
+      key: title,
+      newNavData: {
+        linkUrl: websiteUrl,
+        text: websiteName,
+        imageUrl: '',
+      },
+    });
   };
 
   /** 新增popover */
@@ -24,6 +38,7 @@ export default function NavContent(props: NavContentProps): ReactElement {
     <div>
       <Input
         value={websiteName}
+        size="middle"
         placeholder="书签名称"
         className="navContent__input"
         onChange={(e) => {
@@ -32,15 +47,22 @@ export default function NavContent(props: NavContentProps): ReactElement {
       />
       <Input
         value={websiteUrl}
+        size="middle"
         placeholder="网站地址"
         className="navContent__input"
         onChange={(e) => {
           setWebsiteUrl(e.target.value);
         }}
       />
-      <Button type="primary" className="navContent__button" onClick={addNewMark}>
-        新增
-      </Button>
+      <div style={{ textAlign: 'right' }}>
+        <Button
+          type="primary"
+          className="navContent__button"
+          onClick={addNewMark}
+        >
+          新增
+        </Button>
+      </div>
     </div>
   );
 
@@ -63,6 +85,7 @@ export default function NavContent(props: NavContentProps): ReactElement {
           content={addNewContent}
           trigger="click"
           placement="bottom"
+          destroyTooltipOnHide
           onVisibleChange={(visible) => {
             if (!visible) {
               setWebsiteName('');
