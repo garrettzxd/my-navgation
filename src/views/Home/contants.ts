@@ -104,5 +104,10 @@ export const DEFAULT_LINK_LIST: LinkList = {
       imageUrl: 'https://caniuse.com/img/favicon-128.png',
       text: 'Can I Use',
     },
+    {
+      linkUrl: 'https://developers.google.com/web/tools/chrome-devtools',
+      imageUrl: 'https://www.gstatic.com/devrel-devsite/prod/v8ea8343deca3e735c5e491f22b0e2533427dcd1d0302777baea2667771626911/developers/images/touchicon-180.png',
+      text: 'Chrome DevTools',
+    },
   ],
 };

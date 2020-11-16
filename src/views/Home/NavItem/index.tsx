@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import LoadImage from '@/components/LoadImage';
 import addImage from '../../../static/image/add.png';
 import './navItem.styl';
 
@@ -18,9 +19,15 @@ export default function NavItem(props: NavItemProps):ReactElement {
     linkUrl, imageUrl, text, isLink = true, onClick,
   } = props;
   return isLink ? (
-    <a href={linkUrl} className="nav-item">
+    <a
+      href={linkUrl}
+      className="nav-item"
+      title={text}
+      target="_blank"
+      rel="noreferrer"
+    >
       <div className="nav-item__logo">
-        <img src={imageUrl} alt="logo" />
+        <LoadImage url={imageUrl || ''} alt={text || ''} />
       </div>
       <div className="nav-item__text"><b>{text}</b></div>
     </a>

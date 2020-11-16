@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from 'react';
 import { observer } from 'mobx-react';
 import loadable from '@loadable/component';
 import { AddCallbackData } from '@/views/Home/NavContent';
+import LoadImage from '@/components/LoadImage';
 import { DEFAULT_LINK_LIST } from './contants';
 import { NavItemBase } from './NavItem/index';
 import './index.styl';
@@ -39,6 +40,7 @@ function Home(): ReactElement {
 
         <div className="home__body__right">
           right
+          <LoadImage url="https://mobx.js.org/img/mobx.png" alt="测试" />
         </div>
       </div>
     </div>
