@@ -1,5 +1,7 @@
 import React, { ReactElement, useState } from 'react';
-import { Popover, Input, Button } from 'antd';
+import {
+  Popover, Input, Button, message,
+} from 'antd';
 import CheckClass from '@/helper/CheckClass';
 import NavItem, { NavItemBase } from '../NavItem';
 import './navContent.styl';
@@ -41,7 +43,7 @@ export default function NavContent(props: NavContentProps): ReactElement {
 
     const checkResult = addNewCheck();
     if (checkResult) {
-      console.log(checkResult);
+      message.error(checkResult);
       return;
     }
 
@@ -90,7 +92,7 @@ export default function NavContent(props: NavContentProps): ReactElement {
 
   const navItemList = details.map((item) => {
     const { linkUrl, imageUrl, text } = item;
-    return <NavItem linkUrl={linkUrl} imageUrl={imageUrl} text={text} key={linkUrl} />;
+    return <NavItem linkUrl={linkUrl} imageUrl={imageUrl} text={text} key={text} />;
   });
 
   return (
