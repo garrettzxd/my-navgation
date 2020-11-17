@@ -1,9 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { observer } from 'mobx-react';
 import loadable from '@loadable/component';
-import { AddCallbackData } from '@/views/Home/NavContent';
-import LoadImage from '@/components/LoadImage';
-import { DEFAULT_LINK_LIST } from './contants';
+import homeStore from '@/store/module/homeStore';
 import { NavItemBase } from './NavItem/index';
 import './index.styl';
 
@@ -14,17 +12,11 @@ export interface LinkList {
 }
 
 function Home(): ReactElement {
-  const [markList, setMarkList] = useState(DEFAULT_LINK_LIST);
-
-  const addNewMark = (data: AddCallbackData) => {
-    const { key, newNavData } = data;
-    if (markList[key]) markList[key].push(newNavData);
-    setMarkList({ ...markList });
-  };
+  const { navigationList } = homeStore;
 
   // eslint-disable-next-line
-  const navContentList = Object.keys(markList).map((key) => {
-    return <NavContent title={key} details={markList[key]} key={key} onAdd={addNewMark} />;
+  const navContentList = Object.keys(navigationList).map((key) => {
+    return <NavContent title={key} details={navigationList[key]} key={key} />;
   });
 
   return (
@@ -40,7 +32,6 @@ function Home(): ReactElement {
 
         <div className="home__body__right">
           right
-          <LoadImage url="https://mobx.js.org/img/mobx.png" alt="测试" />
         </div>
       </div>
     </div>

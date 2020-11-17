@@ -1,15 +1,15 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action } from 'mobx';
+import { DEFAULT_LINK_LIST } from '@/views/Home/contants';
+import { LinkList } from '@/views/Home';
 
-class HomeStore {
-  @observable name = 'garrett';
+const homeStore = observable.object({
+  navigationList: DEFAULT_LINK_LIST,
+  setNavigationList(list: LinkList) {
+    console.log(list, this);
+    this.navigationList = list;
+  },
+}, {
+  setNavigationList: action,
+});
 
-  @computed get upperCaseName() {
-    return this.name.toUpperCase();
-  }
-
-  @action setName = (name: string) => {
-    this.name = name;
-  }
-}
-
-export default new HomeStore();
+export default homeStore;
