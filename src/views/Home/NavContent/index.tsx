@@ -3,11 +3,17 @@ import { observer } from 'mobx-react';
 import {
   Button, Form, Input, message, Modal,
 } from 'antd';
+import findIndex from '@/helper/findIndex';
 import homeStore from '@/store/module/homeStore';
 import NavItem, { NavItemBase } from '../NavItem';
 import './navContent.styl';
 
 const { Item: FormItem } = Form;
+
+interface DeleteNavItem {
+  key: string;
+  id: number;
+}
 
 const NavContent = (): ReactElement => {
   const [form] = Form.useForm();
@@ -16,6 +22,19 @@ const NavContent = (): ReactElement => {
   const [editNavId, setEditNavId] = useState(0);
   const [editDialogVisible, setEditDialogVisible] = useState(false);
 
+  // 子组件删除回调
+  const deleteNavItem = ({ id, key }: DeleteNavItem): void => {
+    const index = findIndex({
+      source: homeStore.navigationList[key],
+      key: 'id',
+      value: id,
+    });
+    navigationList[key].splice(index, 1);
+    homeStore.setNavigationList({ ...navigationList });
+    message.success('已删除');
+  };
+
+  // 子组件编辑回调
   const editNavItem = (data: NavItemBase):void => {
     const {
       linkUrl, imageUrl, text, id,
@@ -61,6 +80,7 @@ const NavContent = (): ReactElement => {
     message.success('标签已更新');
   };
 
+  // 列表render
   const list = Object.keys(navigationList).map((key) => {
     const itemList = navigationList[key].map((item) => {
       const {
@@ -73,8 +93,10 @@ const NavContent = (): ReactElement => {
           text={text}
           id={id}
           key={id}
-          titleKey={key}
           onEdit={editNavItem}
+          onDelete={() => {
+            deleteNavItem({ key, id: id || 0 });
+          }}
         />
       );
     });

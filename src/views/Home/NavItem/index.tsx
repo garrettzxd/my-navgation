@@ -1,7 +1,4 @@
 import React, { ReactElement, MouseEvent, useState } from 'react';
-import { message } from 'antd';
-import findIndex from '@/helper/findIndex';
-import homeStore from '@/store/module/homeStore';
 import LoadImage from '@/components/LoadImage';
 import editImage from '@/static/image/edit.png';
 import closeWhite from '@/static/image/close-white.png';
@@ -16,7 +13,7 @@ export interface NavItemBase {
 
 export interface NavItemProps extends NavItemBase{
   onEdit: (data: NavItemBase) => void;
-  titleKey: string;
+  onDelete: () => void;
 }
 
 interface IsShowOverflow {
@@ -26,9 +23,8 @@ interface IsShowOverflow {
 
 function NavItem(props: NavItemProps):ReactElement {
   const {
-    linkUrl, imageUrl, text, id, titleKey, onEdit,
+    linkUrl, imageUrl, text, id, onEdit, onDelete,
   } = props;
-  const { navigationList } = homeStore;
 
   const [overflowVisible, setOverflowVisible] = useState(false);
   const [overflowOffsetY, setOverflowOffsetY] = useState(100);
@@ -47,21 +43,10 @@ function NavItem(props: NavItemProps):ReactElement {
     });
   };
 
+  // 遮罩层显隐
   const isShowOverFlow = ({ visible, offset }: IsShowOverflow): void => {
     setOverflowVisible(visible);
     setOverflowOffsetY(offset);
-  };
-
-  // 删除
-  const navItemDelete = (): void => {
-    const index = findIndex({
-      source: homeStore.navigationList[titleKey],
-      key: 'linkUrl',
-      value: linkUrl,
-    });
-    navigationList[titleKey].splice(index, 1);
-    homeStore.setNavigationList({ ...navigationList });
-    message.success(`已删除${text}`);
   };
 
   return (
@@ -102,7 +87,7 @@ function NavItem(props: NavItemProps):ReactElement {
         </div>
         <div
           className="nav-item__overflow__edit not-focus"
-          onClick={navItemDelete}
+          onClick={onDelete}
           role="button"
           tabIndex={0}
         >
