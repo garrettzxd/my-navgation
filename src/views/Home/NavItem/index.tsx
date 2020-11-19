@@ -1,8 +1,7 @@
 import React, { ReactElement, MouseEvent, useState } from 'react';
 import { Button, Popover } from 'antd';
+import { CloseOutlined, FormOutlined } from '@ant-design/icons';
 import LoadImage from '@/components/LoadImage';
-import editImage from '@/static/image/edit.png';
-import closeWhite from '@/static/image/close-white.png';
 import './navItem.styl';
 
 export interface NavItemBase {
@@ -79,7 +78,7 @@ function NavItem(props: NavItemProps):ReactElement {
           role="button"
           tabIndex={0}
         >
-          <img src={editImage} width="10px" height="10px" alt="edit" />
+          <FormOutlined width="10px" height="10px" />
         </div>
       </a>
 
@@ -114,11 +113,7 @@ function NavItem(props: NavItemProps):ReactElement {
           tabIndex={0}
           title="关闭"
         >
-          <img
-            className="nav-item__overflow__image"
-            src={closeWhite}
-            alt="关闭"
-          />
+          <CloseOutlined width="14px" height="14px" />
         </div>
       </div>
     </div>
