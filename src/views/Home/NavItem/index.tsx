@@ -1,4 +1,5 @@
 import React, { ReactElement, MouseEvent, useState } from 'react';
+import { Button, Popover } from 'antd';
 import LoadImage from '@/components/LoadImage';
 import editImage from '@/static/image/edit.png';
 import closeWhite from '@/static/image/close-white.png';
@@ -49,6 +50,15 @@ function NavItem(props: NavItemProps):ReactElement {
     setOverflowOffsetY(offset);
   };
 
+  const popoverContent = (
+    <div>
+      <p>确认删除该标签？</p>
+      <Button type="primary" size="small" onClick={onDelete}>
+        删除标签
+      </Button>
+    </div>
+  );
+
   return (
     <div className="nav-item">
       <a
@@ -85,14 +95,17 @@ function NavItem(props: NavItemProps):ReactElement {
         >
           编辑
         </div>
-        <div
-          className="nav-item__overflow__edit not-focus"
-          onClick={onDelete}
-          role="button"
-          tabIndex={0}
+
+        <Popover
+          title="确认"
+          trigger="click"
+          content={popoverContent}
+          placement="bottom"
         >
-          删除
-        </div>
+          <div className="nav-item__overflow__edit not-focus">
+            删除
+          </div>
+        </Popover>
 
         <div
           className="nav-item__overflow__image-content not-focus"
