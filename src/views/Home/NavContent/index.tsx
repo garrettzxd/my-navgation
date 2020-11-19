@@ -5,20 +5,36 @@ import './navContent.styl';
 export interface NavContentProps{
   title: string;
   details: NavItemBase[];
+  onNavItemEdit: (data: NavItemEditParameter) => void;
+}
+
+export interface NavItemEditParameter extends NavItemBase{
+  title: string;
 }
 
 export default function NavContent(props: NavContentProps): ReactElement {
-  const { title, details } = props;
+  const { title, details, onNavItemEdit } = props;
+
+  const editNavItem = (data: NavItemBase):void => {
+    onNavItemEdit({
+      title,
+      ...data,
+    });
+  };
 
   const navItemList = details.map((item) => {
-    const { linkUrl, imageUrl, text } = item;
+    const {
+      linkUrl, imageUrl, text, id,
+    } = item;
     return (
       <NavItem
         linkUrl={linkUrl}
         imageUrl={imageUrl}
         text={text}
+        id={id}
         key={text}
         titleKey={title}
+        onEdit={editNavItem}
       />
     );
   });

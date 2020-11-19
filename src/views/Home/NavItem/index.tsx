@@ -11,17 +11,22 @@ export interface NavItemBase {
   linkUrl?: string;
   imageUrl?: string;
   text?: string;
+  id?: number;
 }
 
 export interface NavItemProps extends NavItemBase{
-  onEdit?: (data: NavItemBase) => void;
-  onDelete?: (data: NavItemBase) => void;
+  onEdit: (data: NavItemBase) => void;
   titleKey: string;
+}
+
+interface IsShowOverflow {
+  visible: boolean;
+  offset: number;
 }
 
 function NavItem(props: NavItemProps):ReactElement {
   const {
-    linkUrl, imageUrl, text, titleKey,
+    linkUrl, imageUrl, text, id, titleKey, onEdit,
   } = props;
   const { navigationList } = homeStore;
 
@@ -31,20 +36,23 @@ function NavItem(props: NavItemProps):ReactElement {
   // 编辑显影按钮
   const handleEditClick = (e: MouseEvent<HTMLDivElement>): void => {
     e.preventDefault();
-    setOverflowVisible(true);
-    setOverflowOffsetY(0);
+    isShowOverFlow({ visible: true, offset: 0 });
   };
 
-  // 编辑层关闭按钮
-  const editClose = (): void => {
-    setOverflowVisible(false);
-    setOverflowOffsetY(100);
-  };
-
+  // 编辑
   const navItemEdit = ():void => {
-    //
+    isShowOverFlow({ visible: false, offset: 100 });
+    onEdit({
+      linkUrl, imageUrl, text, id,
+    });
   };
 
+  const isShowOverFlow = ({ visible, offset }: IsShowOverflow): void => {
+    setOverflowVisible(visible);
+    setOverflowOffsetY(offset);
+  };
+
+  // 删除
   const navItemDelete = (): void => {
     const index = findIndex({
       source: homeStore.navigationList[titleKey],
@@ -103,7 +111,7 @@ function NavItem(props: NavItemProps):ReactElement {
 
         <div
           className="nav-item__overflow__image-content not-focus"
-          onClick={editClose}
+          onClick={() => { isShowOverFlow({ visible: false, offset: 100 }); }}
           role="button"
           tabIndex={0}
           title="关闭"
