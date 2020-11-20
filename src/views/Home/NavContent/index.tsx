@@ -1,7 +1,8 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useRef } from 'react';
 import { observer } from 'mobx-react';
+import { PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  Button, Form, Input, message, Modal,
+  Button, Form, Input, message, Modal, Select, Divider,
 } from 'antd';
 import findIndex from '@/helper/findIndex';
 import homeStore from '@/store/module/homeStore';
@@ -9,17 +10,27 @@ import NavItem, { NavItemBase } from '../NavItem';
 import './navContent.styl';
 
 const { Item: FormItem } = Form;
+const { Option } = Select;
 
 interface DeleteNavItem {
   key: string;
   id: number;
 }
 
+interface AddNewNavItemParameter {
+  name: string;
+  url: string;
+  image: string;
+  type: string;
+}
+
 const NavContent = (): ReactElement => {
   const [form] = Form.useForm();
   const { navigationList } = homeStore;
+  const selectRenderInputRef = useRef<Input>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [editNavId, setEditNavId] = useState(0);
+  const [navItemType, setNavItemType] = useState<string []>([]);
   const [editDialogVisible, setEditDialogVisible] = useState(false);
 
   // 子组件删除回调
@@ -60,9 +71,15 @@ const NavContent = (): ReactElement => {
 
   // 弹窗确认
   const modalConfirm = (): void => {
-    const { name, url, image } = form.getFieldsValue();
+    const {
+      name, url, image, type,
+    } = form.getFieldsValue();
     if (isEdit) {
       updateNavList({ linkUrl: url, imageUrl: image, text: name });
+    } else {
+      addNewNavItem({
+        name, url, image, type,
+      });
     }
   };
 
@@ -78,6 +95,37 @@ const NavContent = (): ReactElement => {
     homeStore.setNavigationList({ ...navigationList });
     setEditDialogVisible(false);
     message.success('标签已更新');
+  };
+
+  const addNewNavItem = ({
+    name, url, image, type,
+  }: AddNewNavItemParameter): void => {
+    if (!navigationList[type]) {
+      navigationList[type] = [];
+    }
+    navigationList[type].push({
+      linkUrl: url,
+      imageUrl: image,
+      text: name,
+    });
+    homeStore.setNavigationList(navigationList);
+    modalClose();
+  };
+
+  // 新增按钮
+  const addNewNavItemButton = (): void => {
+    setNavItemType(Object.keys(navigationList));
+    setEditDialogVisible(true);
+  };
+
+  // 添加标签类型
+  const addNewNavItemType = (): void => {
+    const selectRenderInputVal = selectRenderInputRef.current;
+    if (selectRenderInputVal) {
+      setNavItemType([...navItemType, selectRenderInputVal?.state.value]);
+    } else {
+      message.error('不能添加空选项！');
+    }
   };
 
   // 列表render
@@ -101,24 +149,46 @@ const NavContent = (): ReactElement => {
       );
     });
     return (
-      <div className="navContent" key={key}>
-        <div className="navContent__title">
+      <div className="nav-wrapper__navContent" key={key}>
+        <div className="nav-wrapper__navContent__title">
           <b>{key}</b>
         </div>
 
-        <div className="navContent__detail">
+        <div className="nav-wrapper__navContent__detail">
           {itemList}
         </div>
       </div>
     );
   });
 
-  return (
+  const selectDropRender = (menu: ReactElement): ReactElement => (
     <div>
+      {menu}
+      <Divider style={{ margin: '10px 0' }} />
+      <div className="flex justify-between nav-wrapper__select-render">
+        <Input ref={selectRenderInputRef} />
+        <Button type="link" onClick={addNewNavItemType}>
+          <PlusOutlined />
+          新增
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="nav-wrapper">
+      <div className="nav-wrapper__operate">
+        <PlusCircleOutlined
+          className="nav-wrapper__add"
+          title="新增标签"
+          onClick={addNewNavItemButton}
+        />
+      </div>
+
       {list}
 
       <Modal
-        title={isEdit ? '编辑' : '新增'}
+        title={`${isEdit ? '编辑' : '新增'}标签`}
         width="400px"
         className="home__modal"
         visible={editDialogVisible}
@@ -132,6 +202,15 @@ const NavContent = (): ReactElement => {
           size="middle"
           form={form}
         >
+          {isEdit ? null : (
+            <FormItem label="类别" name="type">
+              <Select dropdownRender={selectDropRender}>
+                {navItemType.map((type) => (
+                  <Option key={type} value={type}>{type}</Option>
+                ))}
+              </Select>
+            </FormItem>
+          )}
           <FormItem label="名称" name="name">
             <Input />
           </FormItem>

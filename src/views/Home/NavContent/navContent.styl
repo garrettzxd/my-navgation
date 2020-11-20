@@ -1,21 +1,38 @@
 @import "~@/style/global.styl"
 
-.navContent{
-  padding-top 10px
-  color white
+.nav-wrapper{
+  &__operate{
+    text-align right
+    color white
+  }
 
-  &__title{
-    padding-left 30px
+  &__add{
     font-size 20px
+    cursor pointer
   }
 
-  &__input{
-    width 200px
-    margin-bottom 10px
-    display block
+  &__navContent{
+    padding-top 10px
+    color white
+
+    &__title{
+      padding-left 30px
+      font-size 20px
+    }
+
+    &__input{
+      width 200px
+      margin-bottom 10px
+      display block
+    }
+
+    &__button{
+      //width 200px
+    }
   }
 
-  &__button{
-    //width 200px
+  &__select-render{
+    padding 4px 10px
   }
 }
+

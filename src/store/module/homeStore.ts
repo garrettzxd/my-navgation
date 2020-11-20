@@ -26,7 +26,7 @@ const homeStore = observable.object({
   navigationList: initNavigationList(),
 
   setNavigationList(list: LinkList) {
-    this.navigationList = list;
+    this.navigationList = initListId(list);
     localStorage.setItem(NAVIGATION_LIST_KEY, JSON.stringify(list));
   },
 }, {
