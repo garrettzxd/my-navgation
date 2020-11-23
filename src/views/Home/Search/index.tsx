@@ -6,10 +6,20 @@ import './search.styl';
 
 const Search = (): ReactElement => {
   const [logoIndex, setLogoIndex] = useState(0);
+  const [isFocus, setIsFocus] = useState(false);
   const [searchValue, setSearchValue] = useState('');
 
   const inputChange = (val: string): void => {
     setSearchValue(val);
+  };
+
+  const inputOnFocus = (): void => {
+    console.log('focus');
+    setIsFocus(true);
+  };
+
+  const inputOnBlur = (): void => {
+    setIsFocus(false);
   };
 
   // 搜索框变化事件
@@ -33,7 +43,7 @@ const Search = (): ReactElement => {
   };
 
   return (
-    <div className="search">
+    <div className={`search ${isFocus && searchValue ? 'search__focus' : ''}`}>
       <div
         className="search__logo not-focus"
         onClick={searchSourceChange}
@@ -49,11 +59,13 @@ const Search = (): ReactElement => {
       </div>
       <input
         value={searchValue}
-        name="q"
+        autoComplete="false"
         className="search__input not-focus"
         onChange={(e) => {
           inputChange(e.target.value);
         }}
+        onFocus={inputOnFocus}
+        onBlur={inputOnBlur}
       />
 
       <div
@@ -64,6 +76,8 @@ const Search = (): ReactElement => {
       >
         <SearchOutlined />
       </div>
+
+      {isFocus && searchValue ? (<div className="search__sug">1</div>) : null}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 @import "~@/style/global.styl"
 $searchHeight = 40px
 $imageSize = 20px
+$isFocusBorderRadius = 6px
 
 .search{
   display inline-block
@@ -10,6 +11,14 @@ $imageSize = 20px
   background rgba(255, 255, 255, 0.9)
   border-radius 20px
   padding 0 10px
+  position relative
+
+  &__focus{
+    border-top-left-radius $isFocusBorderRadius
+    border-top-right-radius $isFocusBorderRadius
+    border-bottom-right-radius 0
+    border-bottom-left-radius 0
+  }
 
   &__logo{
     display inline-block
@@ -38,5 +47,17 @@ $imageSize = 20px
     font-size 19px
     cursor pointer
     color #999
+  }
+
+  &__sug{
+    position absolute
+    top 40px
+    left 0
+    padding 6px
+    width 400px
+    border-top 1px solid #ccc
+    border-bottom-left-radius $isFocusBorderRadius
+    border-bottom-right-radius $isFocusBorderRadius
+    background rgba(255, 255, 255, 0.9)
   }
 }
