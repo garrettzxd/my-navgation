@@ -4,6 +4,7 @@ import { NavItemBase } from './NavItem/index';
 import './index.styl';
 
 const NavContent = loadable(() => import('./NavContent'));
+const Search = loadable(() => import('./Search'));
 
 export interface LinkList {
   [title: string]: NavItemBase[];
@@ -12,8 +13,8 @@ export interface LinkList {
 function Home(): ReactElement {
   return (
     <div className="home">
-      <header className="home__header">
-        这里是导航头部
+      <header className="home__header flex align-center direction-right">
+        <Search />
       </header>
 
       <div className="home__body flex justify-between">

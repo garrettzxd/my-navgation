@@ -1,0 +1,42 @@
+@import "~@/style/global.styl"
+$searchHeight = 40px
+$imageSize = 20px
+
+.search{
+  display inline-block
+  width 400px
+  height 40px
+  color black
+  background rgba(255, 255, 255, 0.9)
+  border-radius 20px
+  padding 0 10px
+
+  &__logo{
+    display inline-block
+    height 20px
+    cursor pointer
+
+    &__image{
+      width $imageSize
+      height $imageSize
+      margin-top -2px
+    }
+  }
+
+  &__input{
+    width 330px
+    height 40px
+    margin-left 10px
+    border 0
+    color black
+    font-weight bold
+    background transparent
+  }
+
+  &__button{
+    display inline-block
+    font-size 19px
+    cursor pointer
+    color #999
+  }
+}
